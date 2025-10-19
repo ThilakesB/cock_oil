@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegance Organics | Pure Coconut Oil Elixir</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter (default) and Playfair Display (Serif for luxury headings) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJzL6fF0H5G0Jd/wL2Kqf2/A4k/uP1/sB/fG/c4sB/0y/X9y/2Y1Z2c/2G6J8sYQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Define Custom Colors & Fonts in Tailwind Config */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'accent-gold': '#D4AF37',
+                        'deep-brown': '#4A2F23',
+                        'soft-beige': '#F7F3EC',
+                        'text-dark': '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+
+        /* --- Custom Styles for Luxury & Glassmorphism --- */
+
+        /* Base Glassmorphism Class */
+        .glass {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.15); /* glass_background: rgba(255,255,255,0.2) */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* Navbar Glass Effect on Scroll */
+        .nav-scrolled {
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Hero Parallax Setup */
+        #hero {
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+            background-color: #F7F3EC; /* soft-beige fallback */
+        }
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%; /* Increased height for movement */
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+            transition: transform 0.1s linear; /* Smooth movement */
+        }
+
+        /* Mock Imagery (Replace with actual high-res imagery) */
+        #hero-bg-1 {
+            background-image: url('https://placehold.co/1920x1200/4A2F23/F7F3EC?text=Luxury+Coconut+Field');
+        }
+        #hero-bg-2 {
+             /* Mock bottle image overlay */
+            background-image: url('https://placehold.co/800x1200/D4AF37/1A1A1A?text=Virgin+Gold+Elixir+Bottle');
+            width: 60%;
+            left: 20%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Curved Section Dividers */
+        .section-curve-top {
+            clip-path: ellipse(100% 10% at 50% 0%);
+        }
+        .section-curve-bottom {
+            clip-path: ellipse(100% 10% at 50% 100%);
+        }
+
+        /* Gold Button Hover Glow */
+        .gold-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(212, 175, 55, 0.5);
+        }
+        .gold-btn:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+
+<body class="bg-white font-sans text-text-dark antialiased text-base" id="home">
+
+    <!-- 1. Sticky Glassmorphic Navigation Bar -->
+    <header id="navbar" class="fixed top-0 left-0 w-full z-50 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-serif text-deep-brown tracking-wider font-extrabold transition-colors duration-300 hover:text-accent-gold">Elegance Organics</a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex space-x-6 text-sm">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#story" class="nav-link">Our Story</a>
+                <a href="#collection" class="nav-link">Premium Collection</a>
+                <a href="#benefits" class="nav-link">Benefits</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
+                <a href="#contact" class="nav-link font-bold text-accent-gold hover:text-deep-brown transition-colors duration-200">Contact / Order</a>
+            </nav>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-button" class="lg:hidden text-deep-brown text-xl z-50">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Slide-In Menu -->
+        <div id="mobile-menu" class="fixed top-0 right-0 h-full w-64 bg-deep-brown text-white transform translate-x-full transition-transform duration-500 glass shadow-2xl lg:hidden">
+            <button id="close-menu-button" class="absolute top-4 right-6 text-2xl"><i class="fas fa-times"></i></button>
+            <nav class="flex flex-col space-y-6 p-8 pt-16 text-lg">
+                <a href="#home" class="mobile-nav-link">Home</a>
+                <a href="#story" class="mobile-nav-link">Our Story</a>
+                <a href="#collection" class="mobile-nav-link">Premium Collection</a>
+                <a href="#benefits" class="mobile-nav-link">Benefits</a>
+                <a href="#testimonials" class="mobile-nav-link">Testimonials</a>
+                <a href="#contact" class="mobile-nav-link text-accent-gold font-bold">Contact / Order</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. Hero Section (Parallax & Full Screen) -->
+        <section id="hero" class="relative flex items-center justify-center text-center">
+            <div id="hero-bg-1" class="parallax-layer z-0" data-speed="0.3"></div>
+            <div id="hero-bg-2" class="parallax-layer z-10" data-speed="0.5"></div>
+
+            <div class="relative z-20 p-6 pt-32 md:pt-16 glass rounded-[40px_15px_40px_15px] max-w-3xl mx-auto backdrop-filter backdrop-blur-sm scroll-reveal">
+                <h1 class="font-serif text-7xl md:text-9xl font-extralight text-deep-brown leading-none mb-3 tracking-tight" style="letter-spacing: -1px;">
+                    Pure Elegance in Every Drop
+                </h1>
+                <p class="font-sans text-xl text-deep-brown tracking-widest uppercase mb-8">
+                    Cold-Pressed • Chemical-Free • Handcrafted
+                </p>
+                <a href="#collection" class="inline-block px-10 py-3 text-lg font-bold rounded-full bg-accent-gold text-white shadow-lg gold-btn">
+                    Discover Luxury
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. Highlights Section (Glass Cards) -->
+        <section id="highlights" class="py-16 bg-soft-beige scroll-reveal">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- Highlight Card Template -->
+                    <div class="glass p-6 rounded-2xl text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default">
+                        <i class="fas fa-seedling text-3xl text-accent-gold mb-3"></i>
+                        <h3 class="text-lg font-serif font-semibold text-deep-brown mb-1">100% Cold-Pressed</h3>
+                        <p class="text-sm">Retaining all natural enzymes and superior taste.</p>
+                    </div>
+                    <div class="glass p-6 rounded-2xl text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default">
+                        <i class="fas fa-gem text-3xl text-accent-gold mb-3"></i>
+                        <h3 class="text-lg font-serif font-semibold text-deep-brown mb-1">Luxury Purity</h3>
+                        <p class="text-sm">Triple-filtered for unmatched clarity and richness.</p>
+                    </div>
+                    <div class="glass p-6 rounded-2xl text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default">
+                        <i class="fas fa-handshake text-3xl text-accent-gold mb-3"></i>
+                        <h3 class="text-lg font-serif font-semibold text-deep-brown mb-1">Ethically Sourced</h3>
+                        <p class="text-sm">Supporting sustainable farming communities.</p>
+                    </div>
+                    <div class="glass p-6 rounded-2xl text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default">
+                        <i class="fas fa-heart text-3xl text-accent-gold mb-3"></i>
+                        <h3 class="text-lg font-serif font-semibold text-deep-brown mb-1">Multipurpose Use</h3>
+                        <p class="text-sm">For radiant skin, voluminous hair, and gourmet cuisine.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        ---
+        <!-- 4. Our Story (Split Layout, Curved Section) -->
+        <section id="story" class="py-20 bg-white relative overflow-hidden">
+             <!-- Soft curved background section -->
+             <div class="absolute inset-0 bg-soft-beige section-curve-top h-1/2"></div>
+
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <h2 class="text-6xl font-serif font-light text-deep-brown mb-12 text-center scroll-reveal">Our Story of Heritage</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Text Side -->
+                    <div class="lg:pr-8 scroll-reveal">
+                        <p class="text-deep-brown text-lg mb-4 leading-relaxed">
+                            <span class="font-serif text-2xl text-accent-gold">F</span>rom the ancestral groves of the tropics, our journey began with a simple philosophy: purity is the ultimate luxury. We practice time-honored, cold-press extraction methods, ensuring every drop of oil retains its vibrant natural essence and potent health benefits.
+                        </p>
+                        <p class="text-deep-brown mb-4 leading-relaxed text-sm">
+                            Unlike mass-produced oils, our **Virgin Gold Elixir** is handcrafted in small batches. This meticulous process guarantees a chemical-free product, setting a new standard for excellence in natural wellness and gourmet living. This isn't just oil; it's a legacy of purity.
+                        </p>
+                        <a href="#" class="text-accent-gold font-bold text-sm hover:underline transition-colors duration-200">Read the Full Journey &rarr;</a>
+                    </div>
+                    <!-- Image Side (Scroll Reveal) -->
+                    <div class="h-80 rounded-[40px_10px_40px_10px] shadow-xl overflow-hidden scroll-reveal" style="box-shadow: 0 10px 40px rgba(74, 47, 35, 0.3);">
+                        <img src="https://placehold.co/800x600/D4AF37/F7F3EC?text=Handcrafted+Process" alt="Coconut oil being processed by hand" class="w-full h-full object-cover transform hover:scale-105 transition duration-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+        ---
+        <!-- 5. Premium Collection (Interactive Cards) -->
+        <section id="collection" class="py-24 bg-soft-beige">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-6xl font-serif font-light text-deep-brown mb-16 text-center scroll-reveal">The Premium Collection</h2>
+
+                <!-- Product Cards Layout -->
+                <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Product Card Template (Glassmorphic & Interactive) -->
+                    <!-- Virgin Gold Coconut Elixir -->
+                    <div class="product-card glass p-6 rounded-[30px] text-center transition-all duration-500 hover:scale-[1.03] cursor-grab scroll-reveal">
+                        <img src="https://placehold.co/400x500/F7F3EC/D4AF37?text=Virgin+Elixir+Bottle" alt="Virgin Gold Coconut Elixir" class="w-full h-auto object-contain mb-4 rounded-2xl shadow-lg">
+                        <h3 class="text-xl font-serif font-semibold text-deep-brown mb-1">Virgin Gold Elixir</h3>
+                        <p class="text-xs text-gray-700 mb-3">Ultimate luxury for skin and hair.</p>
+                        <span class="text-lg font-bold text-accent-gold block">$49.00</span>
+                    </div>
+
+                    <!-- Cold-Pressed Culinary Essence -->
+                    <div class="product-card glass p-6 rounded-[30px] text-center transition-all duration-500 hover:scale-[1.03] cursor-grab scroll-reveal">
+                        <img src="https://placehold.co/400x500/F7F3EC/D4AF37?text=Culinary+Essence+Jar" alt="Cold-Pressed Culinary Essence" class="w-full h-auto object-contain mb-4 rounded-2xl shadow-lg">
+                        <h3 class="text-xl font-serif font-semibold text-deep-brown mb-1">Culinary Essence</h3>
+                        <p class="text-xs text-gray-700 mb-3">Gourmet taste and healthy fats.</p>
+                        <span class="text-lg font-bold text-accent-gold block">$35.00</span>
+                    </div>
+
+                    <!-- Lux Hair & Skin Therapy Oil -->
+                    <div class="product-card glass p-6 rounded-[30px] text-center transition-all duration-500 hover:scale-[1.03] cursor-grab scroll-reveal">
+                        <img src="https://placehold.co/400x500/F7F3EC/D4AF37?text=Therapy+Oil+Dispenser" alt="Lux Hair & Skin Therapy Oil" class="w-full h-auto object-contain mb-4 rounded-2xl shadow-lg">
+                        <h3 class="text-xl font-serif font-semibold text-deep-brown mb-1">Therapy Oil</h3>
+                        <p class="text-xs text-gray-700 mb-3">Deep moisture and radiant glow.</p>
+                        <span class="text-lg font-bold text-accent-gold block">$42.00</span>
+                    </div>
+
+                    <!-- Baby-Safe Pure Coconut Oil -->
+                    <div class="product-card glass p-6 rounded-[30px] text-center transition-all duration-500 hover:scale-[1.03] cursor-grab scroll-reveal">
+                        <img src="https://placehold.co/400x500/F7F3EC/D4AF37?text=Baby-Safe+Oil+Jar" alt="Baby-Safe Pure Coconut Oil" class="w-full h-auto object-contain mb-4 rounded-2xl shadow-lg">
+                        <h3 class="text-xl font-serif font-semibold text-deep-brown mb-1">Baby-Safe Pure</h3>
+                        <p class="text-xs text-gray-700 mb-3">Gentle care for sensitive skin.</p>
+                        <span class="text-lg font-bold text-accent-gold block">$28.00</span>
+                    </div>
+                </div>
+
+                <div class="text-center mt-16 scroll-reveal">
+                    <a href="#contact" class="inline-block px-8 py-3 text-base font-bold rounded-full bg-deep-brown text-white shadow-lg transition-all duration-300 hover:bg-accent-gold">
+                        Request to Order
+                    </a>
+                </div>
+            </div>
+        </section>
+        ---
+        <!-- 6. Benefits (Icon Grid with Soft Background) -->
+        <section id="benefits" class="py-24 bg-white relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-6xl font-serif font-light text-deep-brown mb-16 text-center scroll-reveal">The Elixir of Wellness</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Benefit Card Template -->
+                    <div class="p-6 rounded-[30px] border border-soft-beige bg-white shadow-lg scroll-reveal transition duration-500 hover:shadow-xl hover:border-accent-gold hover:translate-y-[-3px]">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <i class="fas fa-face-sparkles text-2xl text-accent-gold"></i>
+                            <h3 class="text-xl font-serif font-semibold text-deep-brown">Beauty & Skincare</h3>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 pl-4 text-sm">
+                            <li>Natural, deep moisturizing oil.</li>
+                            <li>Reduces fine lines and blemishes.</li>
+                            <li>Soothes irritated or dry skin.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 rounded-[30px] border border-soft-beige bg-white shadow-lg scroll-reveal transition duration-500 hover:shadow-xl hover:border-accent-gold hover:translate-y-[-3px]">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <i class="fas fa-magic text-2xl text-accent-gold"></i>
+                            <h3 class="text-xl font-serif font-semibold text-deep-brown">Hair Care</h3>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 pl-4 text-sm">
+                            <li>Repairs split ends and adds shine.</li>
+                            <li>Natural conditioner and detangler.</li>
+                            <li>Scalp health and follicle nourishment.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 rounded-[30px] border border-soft-beige bg-white shadow-lg scroll-reveal transition duration-500 hover:shadow-xl hover:border-accent-gold hover:translate-y-[-3px]">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <i class="fas fa-spa text-2xl text-accent-gold"></i>
+                            <h3 class="text-xl font-serif font-semibold text-deep-brown">Health & Wellness</h3>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 pl-4 text-sm">
+                            <li>Rich source of medium-chain triglycerides.</li>
+                            <li>Supports metabolic health.</li>
+                            <li>Enhances overall immune function.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center mt-16 scroll-reveal">
+                    <!-- Animated Counters -->
+                    <p class="text-xl font-serif font-light text-deep-brown mb-3">Since <span class="text-accent-gold font-bold" data-counter="1985">0</span> | Trusted by <span class="text-accent-gold font-bold" data-counter="5200">0</span> Happy Customers</p>
+                </div>
+            </div>
+        </section>
+        ---
+        <!-- 7. Testimonials (Glass Card Carousel) -->
+        <section id="testimonials" class="py-24 bg-soft-beige relative overflow-hidden">
+            <div class="max-w-5xl mx-auto px-6">
+                <h2 class="text-6xl font-serif font-light text-deep-brown mb-12 text-center scroll-reveal">Voices of Trust</h2>
+
+                <!-- Testimonial Carousel Container (Simulated with JS) -->
+                <div id="testimonial-carousel" class="flex overflow-x-hidden snap-x snap-mandatory space-x-6 pb-4 scrollbar-hide">
+                    <!-- Testimonial Card Template -->
+                    <div class="glass p-6 rounded-[30px] min-w-full md:min-w-[48%] snap-center transition duration-500 shadow-lg scroll-reveal">
+                        <div class="text-accent-gold text-xl mb-3">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="text-lg font-serif italic text-deep-brown mb-4">"The Virgin Gold Elixir is unparalleled. My skin has never felt softer or looked more radiant. It's truly a daily ritual of luxury."</p>
+                        <p class="font-bold text-sm text-deep-brown">- Sophia M., New York</p>
+                    </div>
+
+                    <div class="glass p-6 rounded-[30px] min-w-full md:min-w-[48%] snap-center transition duration-500 shadow-lg scroll-reveal">
+                        <div class="text-accent-gold text-xl mb-3">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="text-lg font-serif italic text-deep-brown mb-4">"I appreciate the ethical sourcing. Knowing the quality is pure and the process is honest makes this our only choice for culinary use."</p>
+                        <p class="font-bold text-sm text-deep-brown">- Chef Julian R., London</p>
+                    </div>
+
+                    <div class="glass p-6 rounded-[30px] min-w-full md:min-w-[48%] snap-center transition duration-500 shadow-lg scroll-reveal">
+                        <div class="text-accent-gold text-xl mb-3">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="text-lg font-serif italic text-deep-brown mb-4">"Gentle, pure, and effective. The Baby-Safe Pure is perfect for my little one. Absolutely love the subtle, natural scent."</p>
+                        <p class="font-bold text-sm text-deep-brown">- Ayesha K., Dubai</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Dots -->
+                <div class="flex justify-center mt-6 space-x-2" id="carousel-dots">
+                    <!-- Dots will be populated by JS -->
+                </div>
+            </div>
+        </section>
+        ---
+        <!-- 8. Contact / Order (Glass Card Form) -->
+        <section id="contact" class="py-24 bg-white relative">
+            <!-- Background Image for Form Section -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://placehold.co/1920x1080/D4AF37/4A2F23?text=Coconut+Close-up');"></div>
+
+            <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+                <h2 class="text-6xl font-serif font-light text-deep-brown mb-6 scroll-reveal">Experience Luxury</h2>
+                <p class="text-xl text-deep-brown mb-10 scroll-reveal">Connect With Us to Place Your Exclusive Order.</p>
+
+                <!-- Glassmorphic Form Container -->
+                <div class="glass p-8 md:p-12 rounded-[50px] max-w-sm mx-auto scroll-reveal">
+                    <h3 class="text-2xl font-serif font-semibold text-deep-brown mb-6">Order Inquiry</h3>
+                    <form onsubmit="event.preventDefault(); showMessage('Your inquiry has been sent! We will contact you soon.');">
+                        <input type="text" placeholder="Full Name" required class="w-full p-3 text-sm mb-4 rounded-lg border border-soft-beige focus:border-accent-gold focus:ring-1 focus:ring-accent-gold transition duration-300 bg-white/70 text-text-dark">
+                        <input type="email" placeholder="Email Address" required class="w-full p-3 text-sm mb-4 rounded-lg border border-soft-beige focus:border-accent-gold focus:ring-1 focus:ring-accent-gold transition duration-300 bg-white/70 text-text-dark">
+                        <select class="w-full p-3 text-sm mb-4 rounded-lg border border-soft-beige focus:border-accent-gold focus:ring-1 focus:ring-accent-gold transition duration-300 bg-white/70 text-text-dark">
+                            <option value="">Interested Product...</option>
+                            <option>Virgin Gold Coconut Elixir</option>
+                            <option>Cold-Pressed Culinary Essence</option>
+                            <option>Lux Hair & Skin Therapy Oil</option>
+                        </select>
+                        <button type="submit" class="w-full py-3 text-base font-bold rounded-full bg-accent-gold text-white shadow-lg gold-btn mt-3">
+                            Submit Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating WhatsApp / Order Button (Fixed) -->
+        <a href="#contact" class="fixed bottom-4 right-4 z-50 p-3 rounded-full bg-deep-brown text-white shadow-xl gold-btn transition-all duration-300 hover:bg-accent-gold flex items-center space-x-2 text-sm">
+            <i class="fab fa-whatsapp text-xl"></i>
+            <span class="hidden md:inline font-bold">Quick Order</span>
+        </a>
+
+        <!-- Floating Back-to-Top Button -->
+        <button id="back-to-top" class="fixed bottom-4 left-4 z-50 p-3 rounded-full bg-deep-brown text-white shadow-xl transition-all duration-300 hover:bg-accent-gold opacity-0 invisible">
+            <i class="fas fa-chevron-up text-sm"></i>
+        </button>
+    </main>
+
+    <!-- 9. Footer (Dark Background) -->
+    <footer class="bg-deep-brown text-white py-12">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+            <!-- Branding & Social -->
+            <div>
+                <h3 class="text-2xl font-serif text-accent-gold mb-3">Elegance Organics</h3>
+                <p class="text-gray-400 mb-4">Purity is the ultimate luxury. Handcrafted, chemical-free elixirs for your life.</p>
+                <div class="flex space-x-3 text-xl">
+                    <a href="#" class="hover:text-accent-gold transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-accent-gold transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-accent-gold transition"><i class="far fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-lg font-bold mb-3 text-accent-gold">Quick Links</h4>
+                <ul class="space-y-1 text-gray-400">
+                    <li><a href="#story" class="hover:text-white transition">Our Story</a></li>
+                    <li><a href="#collection" class="hover:text-white transition">Shop All Products</a></li>
+                    <li><a href="#benefits" class="hover:text-white transition">Wellness Guide</a></li>
+                    <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Certifications & Trust -->
+            <div>
+                <h4 class="text-lg font-bold mb-3 text-accent-gold">Trust & Quality</h4>
+                <div class="flex flex-col space-y-2">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-certificate text-xl text-accent-gold"></i>
+                        <span class="text-gray-400">100% Certified Organic</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-leaf text-xl text-accent-gold"></i>
+                        <span class="text-gray-400">Ethically Sourced</span>
+                    </div>
+                    <img src="https://placehold.co/80x30/F7F3EC/4A2F23?text=FSSAI" alt="FSSAI Certified" class="w-16 rounded">
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h4 class="text-lg font-bold mb-3 text-accent-gold">Get In Touch</h4>
+                <p class="text-gray-400 mb-1">Email: <a href="mailto:order@eleganceorganics.com" class="hover:text-white transition">order@eleganceorganics.com</a></p>
+                <p class="text-gray-400 mb-1">Phone: +1 800 555 0123</p>
+                <p class="text-gray-400">HQ: Luxury Grove, Coconut Creek, FL</p>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-500 text-xs">
+            &copy; 2025 Elegance Organics. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Message Box (Non-Alert Dialog) -->
+    <div id="message-box" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-text-dark/50 backdrop-blur-sm z-[100] hidden">
+        <div class="glass p-6 rounded-2xl max-w-xs text-center transform transition-all duration-300">
+            <p id="message-text" class="text-lg font-serif text-deep-brown mb-5"></p>
+            <button onclick="closeMessage()" class="px-6 py-2 rounded-full bg-accent-gold text-white font-bold gold-btn text-sm">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Message Box Functionality (Non-alert)
+        function showMessage(text) {
+            document.getElementById('message-text').innerText = text;
+            document.getElementById('message-box').classList.remove('hidden');
+        }
+        function closeMessage() {
+            document.getElementById('message-box').classList.add('hidden');
+        }
+
+        // Global Setup
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMenuButton = document.getElementById('close-menu-button');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+            const backToTopButton = document.getElementById('back-to-top');
+            const parallaxLayers = document.querySelectorAll('.parallax-layer');
+
+            // 1. Sticky Navbar & Back-to-Top Logic
+            const handleScroll = () => {
+                const scrollY = window.scrollY;
+
+                // Navbar sticky effect (Glassmorphism activation)
+                if (scrollY > 50) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+
+                // Back-to-Top visibility
+                if (scrollY > 600) {
+                    backToTopButton.classList.remove('invisible', 'opacity-0');
+                    backToTopButton.classList.add('visible', 'opacity-100');
+                } else {
+                    backToTopButton.classList.remove('visible', 'opacity-100');
+                    backToTopButton.classList.add('invisible', 'opacity-0');
+                }
+
+                // 2. Parallax Effect (Hero)
+                parallaxLayers.forEach(layer => {
+                    const speed = layer.getAttribute('data-speed');
+                    const yPos = -(scrollY * speed);
+                    layer.style.transform = `translateY(${yPos}px)`;
+                });
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Initial call to set state
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+
+            // 3. Mobile Menu Toggle
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+            });
+
+            closeMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('translate-x-full');
+                });
+            });
+
+            // 4. On-Scroll Fade-In Animation (Intersection Observer)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            scrollRevealElements.forEach(el => observer.observe(el));
+
+            // 5. Animated Counters
+            const animateCounter = (el, target) => {
+                let current = 0;
+                const increment = target / 100;
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        el.textContent = Math.ceil(current).toLocaleString();
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        el.textContent = target.toLocaleString();
+                    }
+                };
+                updateCounter();
+            };
+
+            // Use Intersection Observer for counters
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('[data-counter]').forEach(el => {
+                            const target = parseInt(el.getAttribute('data-counter'), 10);
+                            animateCounter(el, target);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const counterSection = document.querySelector('#benefits');
+            if (counterSection) counterObserver.observe(counterSection);
+
+
+            // 6. Testimonial Carousel Setup
+            const carousel = document.getElementById('testimonial-carousel');
+            const dotsContainer = document.getElementById('carousel-dots');
+            const totalSlides = 3;
+            let currentIndex = 0;
+
+            // Create dots
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full bg-deep-brown transition-all duration-300 ${i === 0 ? 'bg-accent-gold' : 'opacity-30'}`;
+                dot.setAttribute('data-index', i);
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+
+            const dots = dotsContainer.querySelectorAll('button');
+
+            const goToSlide = (index) => {
+                if (index < 0 || index >= totalSlides) return;
+                currentIndex = index;
+                const scrollPosition = index * carousel.offsetWidth;
+                carousel.scrollTo({
+                    left: scrollPosition,
+                    behavior: 'smooth'
+                });
+                updateDots();
+            };
+
+            const updateDots = () => {
+                dots.forEach((dot, index) => {
+                    dot.classList.remove('bg-accent-gold', 'opacity-100');
+                    dot.classList.add('opacity-30');
+                    if (index === currentIndex) {
+                        dot.classList.add('bg-accent-gold', 'opacity-100');
+                    }
+                });
+            };
+
+            // Auto-slide functionality
+            let autoSlideInterval = setInterval(() => {
+                let nextIndex = (currentIndex + 1) % totalSlides;
+                goToSlide(nextIndex);
+            }, 6000); // Change slide every 6 seconds
+
+            // Pause on hover
+            carousel.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            carousel.addEventListener('mouseleave', () => {
+                autoSlideInterval = setInterval(() => {
+                    let nextIndex = (currentIndex + 1) % totalSlides;
+                    goToSlide(nextIndex);
+                }, 6000);
+            });
+
+            // Update dot based on manual scroll
+            carousel.addEventListener('scroll', () => {
+                const scrollLeft = carousel.scrollLeft;
+                const slideWidth = carousel.offsetWidth;
+                const newIndex = Math.round(scrollLeft / slideWidth);
+                if (newIndex !== currentIndex) {
+                    currentIndex = newIndex;
+                    updateDots();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
